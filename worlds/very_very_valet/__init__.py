@@ -41,6 +41,7 @@ class VeryVeryValetWorld(World):
 
     web = VeryVeryValetWeb()
     ut_can_gen_without_yaml = True
+    is_ut = False
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -48,6 +49,9 @@ class VeryVeryValetWorld(World):
         self.item_pool = []
 
     def generate_early(self):
+        self.is_ut = getattr(self.multiworld, "generation_is_fake", False)
+        if self.is_ut:
+            return
         normal_levels = [level for zone in valet_levels for level in zone.levels]
         self.random.shuffle(normal_levels)
         bonus_levels = [zone.bonus for zone in valet_levels]
